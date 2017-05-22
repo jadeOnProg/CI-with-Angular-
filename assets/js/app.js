@@ -1,42 +1,42 @@
-var empApp = angular.module('empApp', []);
+var objApp = angular.module('objApp', []);
 
-empApp.controller('empCtrl', function ($scope, $http) {
+objApp.controller('objCtrl', function ($scope, $http) {
 	
-	$http.get('api/employees').success(function(data){
-		$scope.employees = data;
-		console.log(data);
+	$http.get('api/objects').success(function(data){
+		$scope.objects = data;
 	}).error(function(data){
-		$scope.employees = data;
+		$scope.objects = data;
 	});
-	
+
 	$scope.refresh = function(){
-		$http.get('api/employees').success(function(data){
-			$scope.employees = data;
+		$http.get('api/objects').success(function(data){
+			$scope.objects = data;
 		}).error(function(data){
-			$scope.employees = data;
+			$scope.objects = data;
 		});
 	}
 	
-	$scope.addEmployee = function(){
-		var newEmployee = {
-								employeeName: $scope.employeeName
-							};
-		$http.post('api/employees', newEmployee).success(function(data){
-			console.log(data);
+	$scope.addObject = function(){
+		var new_object = {
+			objectName: $scope.objectName
+		};
+
+		$http.post('api/objects', new_object).success(function(data){
 			$scope.refresh();
-			$scope.employeeName = '';
+			$scope.objectName = '';
 		}).error(function(data){
 			alert(data.error);
 		});
+
 	}
 	
-	$scope.deleteEmployee = function(employee){
-		$http.delete('api/employees/' + employee.id);
-		$scope.employees.splice($scope.employees.indexOf(employee),1);
+	$scope.deleteObject  = function(object){
+		$http.delete('api/objects/' + object.id);
+		$scope.objects.splice($scope.objects.indexOf(object),1);
 	}
 	
-	$scope.updateEmployee = function(employee){
-		$http.put('api/employees', employee).error(function(data){
+	$scope.updateObject = function(object){
+		$http.put('api/objects', object).error(function(data){
 			alert(data.error);
 		});
 		$scope.refresh();
